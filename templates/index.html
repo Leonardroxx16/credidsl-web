@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrediDSL | Prototipo académico</title>
+  <style>
+    :root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#172033;background:#f4f6fb}*{box-sizing:border-box}body{margin:0}.wrap{max-width:980px;margin:36px auto;padding:0 18px}.hero{background:#172554;color:white;padding:28px;border-radius:18px;margin-bottom:20px}.hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,38px)}.hero p{margin:0;color:#dbeafe;line-height:1.5}.grid{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}.panel{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;box-shadow:0 8px 25px #0f172a0a}.panel h2{font-size:19px;margin:0 0 16px}label{display:block;font-weight:650;font-size:14px;margin:14px 0 6px}textarea,input{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:9px;font:inherit;background:#fff}textarea{min-height:120px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}button{margin-top:18px;background:#2563eb;color:white;border:0;border-radius:10px;padding:12px 17px;font-weight:700;font-size:15px;cursor:pointer}button:hover{background:#1d4ed8}.result{padding:15px;border-radius:12px;background:#eff6ff;border:1px solid #bfdbfe;margin-top:12px}.error{padding:15px;border-radius:12px;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;margin-top:12px;overflow-wrap:anywhere}.pill{display:inline-block;border-radius:999px;background:#dbeafe;padding:5px 10px;font-size:12px;font-weight:750;color:#1e40af}.muted{font-size:13px;color:#64748b;line-height:1.5}.example{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px;font-family:ui-monospace,monospace;font-size:12px;overflow-wrap:anywhere}.footer{font-size:12px;color:#64748b;margin:18px 4px}@media(max-width:720px){.grid{grid-template-columns:1fr}.wrap{margin:18px auto}.hero,.panel{padding:19px}}
+  </style>
+</head>
+<body><main class="wrap">
+  <header class="hero"><span class="pill">COMPILADORES · DEMO</span><h1>CrediDSL</h1><p>Prototipo de lenguaje de dominio específico para analizar y evaluar reglas de negocio crediticias con datos de prueba.</p></header>
+  <div class="grid">
+    <section class="panel"><h2>1. Define la regla</h2>
+      <form method="post" action="/evaluate">
+        <label for="rule">Regla CrediDSL</label>
+        <textarea id="rule" name="rule" required>{{ result.rule if result else default_rule }}</textarea>
+        <p class="muted">Variables permitidas: <code>ingreso</code>, <code>score</code>, <code>endeudamiento</code>, <code>moras</code>. Operadores: &gt;=, &lt;=, ==, !=, &gt;, &lt;, AND, OR.</p>
+        <h2 style="margin-top:20px">2. Datos sintéticos de entrada</h2>
+        <div class="fields">
+          <div><label for="ingreso">Ingreso (S/)</label><input id="ingreso" name="ingreso" type="number" step="any" required value="{{ values.get('ingreso','1800') }}"></div>
+          <div><label for="score">Score</label><input id="score" name="score" type="number" step="any" required value="{{ values.get('score','650') }}"></div>
+          <div><label for="endeudamiento">Endeudamiento (0–1)</label><input id="endeudamiento" name="endeudamiento" type="number" step="any" required value="{{ values.get('endeudamiento','0.40') }}"></div>
+          <div><label for="moras">Moras</label><input id="moras" name="moras" type="number" step="any" required value="{{ values.get('moras','0') }}"></div>
+        </div>
+        <button type="submit">Analizar y evaluar regla</button>
+      </form>
+    </section>
+    <aside class="panel"><h2>Resultado del análisis</h2>
+      {% if result %}
+        <div class="result"><p class="muted">Regla: <strong>{{ result.name }}</strong></p><h3 style="margin:8px 0">{{ result.decision }}</h3><p>{{ result.condition }}</p><p class="muted">La regla se compiló y evaluó correctamente para los valores ingresados.</p></div>
+      {% elif error %}
+        <div class="error"><strong>Error al analizar la regla</strong><p>{{ error }}</p><p>Revisa la sintaxis, las variables y los operadores permitidos.</p></div>
+      {% else %}
+        <p class="muted">Cuando envíes una regla, aquí aparecerá el resultado de su análisis y evaluación.</p>
+      {% endif %}
+      <h2 style="margin-top:24px">Ejemplo de sintaxis</h2><div class="example">REGLA elegibilidad SI ingreso &gt;= 1800 AND score &gt;= 650 AND endeudamiento &lt;= 0.40 AND moras == 0 ENTONCES APROBAR;</div>
+      <p class="muted">La condición falsa conduce a REVISION_MANUAL en el prototipo, aunque la regla declare otra acción.</p>
+    </aside>
+  </div>
+  <p class="footer">Uso académico únicamente. No ingresar datos personales ni información financiera real. Sin autenticación ni almacenamiento persistente.</p>
+</main></body></html>
