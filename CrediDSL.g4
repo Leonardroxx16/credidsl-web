@@ -1,0 +1,37 @@
+grammar CrediDSL;
+
+pol  : reg rest defecto EOF ;
+rest : reg rest | ;
+reg  : REGLA ID PRIORIDAD ENTERO SI exp ENTONCES acc ;
+defecto : POR_DEFECTO acc ;
+exp  : con eo ;
+eo   : O con eo | ;
+con  : atom cy ;
+cy   : Y atom cy | ;
+atom : ID op num | PA exp PC ;
+op   : GE | LE | GT | LT | EQ | NE ;
+num  : ENTERO | DECIMAL ;
+acc  : APROBAR | RECHAZAR | REVISION_MANUAL ;
+
+REGLA           : 'REGLA' ;
+PRIORIDAD       : 'PRIORIDAD' ;
+SI              : 'SI' ;
+ENTONCES        : 'ENTONCES' ;
+POR_DEFECTO     : 'POR_DEFECTO' ;
+Y               : 'Y' ;
+O               : 'O' ;
+APROBAR         : 'APROBAR' ;
+RECHAZAR        : 'RECHAZAR' ;
+REVISION_MANUAL : 'REVISION_MANUAL' ;
+GE              : '>=' ;
+LE              : '<=' ;
+GT              : '>' ;
+LT              : '<' ;
+EQ              : '==' ;
+NE              : '!=' ;
+PA              : '(' ;
+PC              : ')' ;
+DECIMAL         : [0-9]+ '.' [0-9]+ ;
+ENTERO          : [0-9]+ ;
+ID              : [A-Za-z_] [A-Za-z0-9_]* ;
+BLANCO          : [ \t\r\n]+ -> skip ;

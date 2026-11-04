@@ -11,86 +11,206 @@
     @media(max-width:900px){.shell{padding:0 18px}.layout{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.intro{align-items:flex-start;flex-direction:column}.badge{white-space:normal}.toplinks{gap:10px}.toplinks .navlabel{display:none}}
     @media(max-width:600px){.shell{padding:0 13px}.topbar{height:66px}.toplinks{font-size:11px}.status{padding:7px 9px}.intro{padding:26px 0 20px}.intro h1{font-size:34px}.panelhead,.editorbody,.inputs,.resultbody,.syntax{padding-left:15px;padding-right:15px}.side{grid-template-columns:1fr}.fields{gap:10px}.field input{padding:10px}.actions{flex-direction:column}.actions button{width:100%}.footer{flex-direction:column}.footright{text-align:left}.code{font-size:12px}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+      .actions{flex-wrap:wrap}.actions .primary{flex:none}.panel + .panel{margin-top:18px}
+    .side .panel + .panel{margin-top:0}.workspace{min-width:0}.policy-label{display:block;font-weight:750;margin-bottom:8px}
+    .policy-b,.details,.batch-result{margin-top:15px}.policy-b>summary,.details>summary{cursor:pointer;color:var(--blue);font-size:13px;line-height:1.6}
+    .policy-b[open] summary{margin-bottom:10px}.codewrap{padding:9px 12px}.code{display:block;min-height:185px}
+    .file-input{width:100%;margin:8px 0;color:var(--text)}.sectionline{margin-bottom:10px}
+    .resultbody h3{font-size:14px;margin:0 0 10px}.resultbody .error{margin-bottom:12px}
+    .resultbody .error ul{padding-left:17px;margin:8px 0 0}.resultbody .error li + li{margin-top:6px}
+    .validity{display:inline-block;color:#d6f8bd;background:#182a1c;border:1px solid #35503b;padding:6px 9px;border-radius:8px;font-size:12px}
+    .tablewrap{max-width:100%;overflow:auto;margin-top:10px;border:1px solid var(--line);border-radius:10px}
+    table{border-collapse:collapse;width:100%;font-size:12px;line-height:1.5;text-align:left}
+    th,td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top}
+    thead th{background:var(--surface2);white-space:nowrap;color:var(--text)}
+    tbody tr:last-child td{border-bottom:0}.data-table{min-width:560px}.data-table tr.changed{background:#8bd5ff0d}
+    .data-table small{display:block;color:var(--muted);margin-top:3px}.data-table strong{white-space:nowrap}
+    .diagnostics + .diagnostics{margin-top:18px}.resultbody pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#0b1118;padding:10px;border-radius:8px;font-size:12px}
+    .results{margin-top:18px;scroll-margin-top:16px}.results .metrics{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin:0 0 12px}
+    .rules-text{display:block;overflow-wrap:anywhere;font-size:12px;margin-top:4px}.changed-label{color:var(--blue)}
+    a{color:var(--blue)}input:focus-visible,summary:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+    @media(max-width:600px){.actions .primary{flex:none}.field input{min-width:0}.intro .badge{display:none}}
   </style>
 </head>
 <body>
 <div class="shell">
   <header class="topbar">
-    <div class="brand"><div class="logo">C</div><div>CrediDSL<small>RULE ENGINE · LAB</small></div></div>
-    <div class="toplinks"><span class="navlabel">Lenguaje específico de dominio</span><span class="status"><i class="dot"></i> Prototipo activo</span></div>
+    <div class="brand"><div class="logo" aria-hidden="true">C</div><div>CrediDSL<small>LABORATORIO DE POLÍTICAS</small></div></div>
+    <span class="status"><span class="dot"></span> Datos ficticios</span>
   </header>
-  <section class="intro">
-    <div><div class="eyebrow">Compiladores / entorno de pruebas</div><h1>Convierte reglas en decisiones<br>claras y verificables.</h1><p>Escribe una regla en CrediDSL, ingresa un caso sintético y revisa el resultado de la evaluación. Una interfaz para experimentar con la sintaxis y entender la lógica del lenguaje.</p></div>
-    <div class="badge">Versión académica <strong>v0.1</strong> · Sin datos reales</div>
-  </section>
-  <main class="layout">
-    <section class="panel">
-      <div class="panelhead"><div class="paneltitle"><span class="step">01</span> Editor de reglas</div><span class="subtle">CrediDSL / reglas.credito</span></div>
-      <form method="post" action="/evaluate" id="ruleForm">
-        <div class="editorbody">
-          <div class="editorbar"><span class="filetag">regla-principal.dsl</span><span>DSL · texto plano</span></div>
-          <div class="editor"><div class="editorchrome"><span class="traffic"><i></i><i></i><i></i></span><span>EDITOR DE CÓDIGO</span><span>UTF-8</span></div><div class="codewrap"><span class="codehint">regla 01</span><textarea class="code" id="rule" name="rule" spellcheck="false" aria-label="Regla CrediDSL" required>{{ result.rule if result else default_rule }}</textarea></div></div>
-          <div class="helperrow"><span class="chip"><strong>REGLA</strong> nombre</span><span class="chip"><strong>SI</strong> condición</span><span class="chip"><strong>ENTONCES</strong> acción</span></div>
-          <p class="hint">Las palabras clave deben escribirse en mayúsculas. Usa paréntesis para agrupar condiciones y <code>AND</code> / <code>OR</code> para combinarlas.</p>
-          <div class="examples"><button type="button" class="textbtn" id="loadDefault">↳ Cargar regla de ejemplo</button><button type="button" class="textbtn" id="loadOr">↳ Probar condición con OR</button></div>
-        </div>
-        <div class="inputs">
-          <div class="sectionline"><h3><span class="step" style="display:inline-grid;vertical-align:middle;margin-right:7px">02</span> Datos del caso de prueba</h3><span class="sampletag">Datos sintéticos</span></div>
-          <div class="fields">
-            <div class="field"><label for="ingreso">Ingreso mensual</label><input id="ingreso" name="ingreso" type="number" min="0" step="any" required value="{{ values.get('ingreso','1800') }}"><small>En soles peruanos (S/)</small></div>
-            <div class="field"><label for="score">Score crediticio</label><input id="score" name="score" type="number" min="0" step="any" required value="{{ values.get('score','650') }}"><small>Valor numérico de prueba</small></div>
-            <div class="field"><label for="endeudamiento">Endeudamiento</label><input id="endeudamiento" name="endeudamiento" type="number" min="0" max="1" step="any" required value="{{ values.get('endeudamiento','0.40') }}"><small>Rango de 0 a 1 (ej. 0.40 = 40%)</small></div>
-            <div class="field"><label for="moras">Número de moras</label><input id="moras" name="moras" type="number" min="0" step="1" required value="{{ values.get('moras','0') }}"><small>Conteo entero de prueba</small></div>
-          </div>
-          <div class="actions"><button class="primary" type="submit"><span>▶</span> Compilar y evaluar regla</button><button class="secondary" type="button" id="resetValues">Restablecer datos</button></div>
-        </div>
-      </form>
-    </section>
-    <aside class="side">
-      <section class="panel">
-        <div class="panelhead"><div class="paneltitle"><span class="step">03</span> Salida del analizador</div><span class="subtle">Resultado</span></div>
-        <div class="resultbody">
-          {% if result %}
-            {% set state_class = 'good' if result.decision == 'APROBAR' else ('bad' if result.decision == 'RECHAZAR' else 'review') %}
-            <div class="resultbox {{ state_class }}">
-              <div class="resulttop"><span class="resultlabel">Evaluación completada</span><span aria-hidden="true">{% if result.decision == 'APROBAR' %}✓{% elif result.decision == 'RECHAZAR' %}×{% else %}↗{% endif %}</span></div>
-              <div class="resultstate">{{ result.decision }}</div>
-              <p>{{ result.condition }}</p>
-              <div class="why"><b>Interpretación</b><p>{{ result.explanation }}</p></div>
+  <main>
+    <div class="intro">
+      <div>
+        <div class="eyebrow">Compiladores</div>
+        <h1>Valida y compara políticas crediticias</h1>
+        <p>Escribe las reglas, revisa los diagnósticos y comprueba qué decisiones cambian al ejecutar dos versiones sobre las mismas solicitudes.</p>
+      </div>
+      <div class="badge">Simulación académica</div>
+    </div>
+
+    <div class="layout">
+      <div class="workspace">
+        <section class="panel">
+          <div class="panelhead"><div class="paneltitle"><span class="step">1</span> Políticas</div><a class="subtle" href="{{ url_for('index') }}">Restablecer ejemplos</a></div>
+          <form method="post" action="{{ url_for('evaluate_policy') }}#salida" id="policy-form" enctype="multipart/form-data">
+            <div class="editorbody">
+              <label class="policy-label" for="policy-a">Política A</label>
+              <div class="editor codewrap"><textarea class="code" id="policy-a" name="policy_a" maxlength="{{ policy_limit }}" spellcheck="false">{{ policy_a }}</textarea></div>
+              <details class="policy-b" {% if mode == 'compare' %}open{% endif %}>
+                <summary>Política B para comparar</summary>
+                <label class="policy-label" for="policy-b">Política B</label>
+                <div class="editor codewrap"><textarea class="code" id="policy-b" name="policy_b" maxlength="{{ policy_limit }}" spellcheck="false">{{ policy_b }}</textarea></div>
+              </details>
+              <div class="actions">
+                <button class="primary" type="submit" name="action" value="validate">Validar política A</button>
+              </div>
             </div>
-            <div class="metrics"><div class="metric"><span>Regla compilada</span><strong>{{ result.name }}</strong></div><div class="metric"><span>Condición lógica</span><strong>{% if result.condition_passed %}VERDADERA{% else %}FALSA{% endif %}</strong></div></div>
-          {% elif error %}
-            <div class="error"><strong>⚠ No se pudo evaluar la regla</strong>{{ error }}<p>Comprueba palabras clave, operadores, variables y estructura de la regla.</p></div>
-          {% else %}
-            <div class="empty"><div class="emptyicon">⌘</div><h3>Esperando una regla</h3><p>Al ejecutar el análisis, aquí verás la decisión, el estado de la condición y una explicación del resultado.</p></div>
+            <div class="inputs">
+              <div class="sectionline"><h2 class="paneltitle"><span class="step">2</span> Solicitud individual</h2></div>
+              <div class="fields">
+                {% for name, spec in variables.items() %}
+                <div class="field">
+                  <label for="{{ name }}">{{ spec.label }}</label>
+                  <input id="{{ name }}" name="{{ name }}" value="{{ values[name] }}" inputmode="{{ 'numeric' if spec.integer else 'decimal' }}" maxlength="32">
+                  <small>{{ spec.restriction()|capitalize }}</small>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="actions"><button class="secondary" type="submit" name="action" value="case">Evaluar solicitud con A</button></div>
+            </div>
+            <div class="inputs">
+              <div class="sectionline"><h2 class="paneltitle"><span class="step">3</span> Simulación por lote</h2></div>
+              <label class="subtle" for="cases">Archivo CSV opcional</label>
+              <input class="file-input" type="file" id="cases" name="cases" accept=".csv,text/csv">
+              <p class="hint">Si no eliges un archivo, se usarán 100 solicitudes ficticias. <a href="{{ url_for('demo_csv') }}">Descargar el CSV de ejemplo</a>.</p>
+              <div class="actions">
+                <button class="secondary" type="submit" name="action" value="batch">Simular con A</button>
+                <button class="primary" type="submit" name="action" value="compare">Comparar A y B</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <aside class="side">
+        <section class="panel">
+          <div class="panelhead"><div class="paneltitle">Referencia del lenguaje</div></div>
+          <div class="syntax">
+            <div class="syntaxrow"><span class="syntaxkey">REGLA</span><span class="syntaxdesc">Cada regla tiene un nombre único, una <code>PRIORIDAD</code> entera positiva, una condición <code>SI</code> y una decisión <code>ENTONCES</code>.</span></div>
+            <div class="syntaxrow"><span class="syntaxkey">Y / O</span><span class="syntaxdesc"><code>Y</code> se evalúa antes que <code>O</code>. Usa paréntesis para cambiar la agrupación.</span></div>
+            <div class="syntaxrow"><span class="syntaxkey">PRIORIDAD</span><span class="syntaxdesc">Prevalecen las reglas coincidentes de mayor prioridad. Si discrepan, la solicitud pasa a <code>REVISION_MANUAL</code>.</span></div>
+            <div class="syntaxrow"><span class="syntaxkey">POR_DEFECTO</span><span class="syntaxdesc">Cierra la política y decide qué ocurre si ninguna regla coincide.</span></div>
+          </div>
+        </section>
+        <section class="panel">
+          <div class="panelhead"><div class="paneltitle">Estudio de detección</div></div>
+          <div class="resultbody">
+            <p class="hint">Compara cuántas políticas de prueba rechaza cada configuración del validador. El estudio incluye políticas válidas y casos con errores conocidos.</p>
+            <div class="actions"><button class="secondary" type="submit" name="action" value="study" form="policy-form">Comparar validadores</button></div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="panel results" id="salida" aria-labelledby="results-heading">
+      <div class="panelhead"><div class="paneltitle" id="results-heading">Resultados</div></div>
+      <div class="resultbody">
+        {% if error %}<div class="error" role="alert"><strong>Revisa los datos de entrada</strong>{{ error }}</div>{% endif %}
+        {% for label, item in analysis %}
+        <section class="diagnostics">
+          <h3>{{ label }}</h3>
+          {% if item.diagnostics %}
+          <div class="error" role="alert">
+            <strong>Política inválida</strong>
+            <ul>
+              {% for issue in item.diagnostics %}
+              <li><b>{{ issue.stage|capitalize }}{% if issue.line is not none %} · Línea {{ issue.line }}, columna {{ issue.column }}{% endif %}.</b> {{ issue.message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% else %}<span class="validity">Política válida · {{ item.tokens|length }} tokens</span>{% endif %}
+
+          {% if item.tokens %}
+          <details class="details">
+            <summary>Ver tokens y lexemas</summary>
+            <div class="tablewrap" tabindex="0" role="region" aria-label="Tokens de {{ label }}">
+              <table><thead><tr><th>Token</th><th>Lexema</th><th>Línea</th><th>Columna</th></tr></thead><tbody>
+                {% for token in item.tokens %}<tr><td>{{ token.kind }}</td><td><code>{{ token.text }}</code></td><td>{{ token.line }}</td><td>{{ token.column }}</td></tr>{% endfor %}
+              </tbody></table>
+            </div>
+          </details>
           {% endif %}
-          <p class="hint" style="margin-top:15px">Este resultado solo demuestra el comportamiento del prototipo. No constituye una recomendación ni una decisión crediticia real.</p>
-        </div>
-      </section>
-      <section class="panel">
-        <div class="panelhead"><div class="paneltitle">Referencia rápida</div><span class="subtle">Sintaxis soportada</span></div>
-        <div class="syntax">
-          <div class="syntaxrow"><span class="syntaxkey">Variables</span><div class="syntaxdesc"><code>ingreso</code>, <code>score</code>, <code>endeudamiento</code>, <code>moras</code></div></div>
-          <div class="syntaxrow"><span class="syntaxkey">Comparar</span><div class="syntaxdesc"><code>&gt; &nbsp; &lt; &nbsp; &gt;= &nbsp; &lt;= &nbsp; == &nbsp; !=</code></div></div>
-          <div class="syntaxrow"><span class="syntaxkey">Lógica</span><div class="syntaxdesc"><code>AND</code>, <code>OR</code>, <code>( )</code></div></div>
-          <div class="syntaxrow"><span class="syntaxkey">Acciones</span><div class="syntaxdesc"><code>APROBAR</code>, <code>RECHAZAR</code>, <code>REVISION_MANUAL</code></div></div>
-        </div>
-      </section>
-    </aside>
+          {% if item.tree %}<details class="details"><summary>Ver árbol sintáctico</summary><pre>{{ item.tree }}</pre></details>{% endif %}
+        </section>
+        {% endfor %}
+
+        {% if simulation %}
+        <section class="batch-result">
+          <h3>{{ dataset }}</h3>
+          <div class="metrics">
+            <div class="metric"><span>Solicitudes</span><strong>{{ simulation.cases }}</strong></div>
+            {% if simulation.counts_b %}<div class="metric"><span>Decisiones distintas</span><strong>{{ simulation.changed }}</strong></div>{% endif %}
+            {% for action in actions %}
+              <div class="metric"><span>{{ action }}</span><strong>{% if simulation.counts_b %}A {% endif %}{{ simulation.counts_a[action] }}{% if simulation.counts_b %} · B {{ simulation.counts_b[action] }}{% endif %}</strong></div>
+            {% endfor %}
+          </div>
+          {% if mode == 'case' %}
+            {% set decision = simulation.rows[0].a %}
+            <div class="resultbox {{ 'bad' if decision.action == 'RECHAZAR' else 'review' if decision.action == 'REVISION_MANUAL' else 'good' }}">
+              <div class="resultstate">{{ decision.action }}</div>
+              <p>{{ decision.reason }}</p>
+              {% if decision.rules %}<b class="rules-text">{{ decision.rules|join(', ') }}</b>{% endif %}
+            </div>
+          {% else %}
+            <p class="hint">Tiempo de simulación: {{ "%.2f"|format(simulation.elapsed_ms) }} ms.</p>
+            <details class="details" {% if simulation.cases <= 10 %}open{% endif %}>
+              <summary>Ver decisiones y trazas por solicitud</summary>
+              <div class="tablewrap" tabindex="0" role="region" aria-label="Resultados por solicitud">
+                <table class="data-table">
+                  <thead><tr><th>Solicitud</th><th>Datos</th><th>Política A</th>{% if simulation.counts_b %}<th>Política B</th>{% endif %}</tr></thead>
+                  <tbody>
+                    {% for row in simulation.rows %}
+                    <tr{% if row.changed %} class="changed"{% endif %}>
+                      <td>{{ row.id }}{% if row.changed %}<small class="changed-label">Cambió</small>{% endif %}</td>
+                      <td>Puntaje {{ row.application.puntaje }}<small>Ingreso {{ row.application.ingreso_mensual }} · Deuda {{ row.application.ratio_deuda }}</small></td>
+                      {% for decision in [row.a, row.b] if decision %}
+                        <td><strong>{{ decision.action }}</strong><small>{{ decision.rules|join(', ') if decision.rules else 'Por defecto' }}</small><small>{{ decision.reason }}</small></td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          {% endif %}
+        </section>
+        {% endif %}
+
+        {% if study %}
+        <section class="batch-result">
+          <h3>Comparación de detección en {{ study.rows|length }} políticas de prueba</h3>
+          <div class="metrics">
+            <div class="metric"><span>Detectadas con lexer y parser</span><strong>{{ study.base.detected }}</strong></div>
+            <div class="metric"><span>Detectadas con validación semántica</span><strong>{{ study.full.detected }}</strong></div>
+            <div class="metric"><span>Válidas rechazadas por error</span><strong>{{ study.base.false_rejections }} / {{ study.full.false_rejections }}</strong></div>
+          </div>
+          <div class="tablewrap" tabindex="0" role="region" aria-label="Comparación de validadores">
+            <table><thead><tr><th>Política de prueba</th><th>Esperado</th><th>Lexer y parser</th><th>Validación completa</th></tr></thead><tbody>
+              {% for row in study.rows %}
+              <tr><td>{{ row.label }}</td><td>{{ row.expected or 'Válida' }}</td><td>{{ row.base or 'Aceptada' }}</td><td>{{ row.full or 'Aceptada' }}</td></tr>
+              {% endfor %}
+            </tbody></table>
+          </div>
+        </section>
+        {% endif %}
+
+        {% if not analysis and not error and not study %}
+          <div class="empty"><h3>Los resultados aparecerán aquí</h3><p>Valida una política o ejecuta una simulación para ver los diagnósticos y las decisiones.</p></div>
+        {% endif %}
+      </div>
+    </section>
   </main>
-  <footer class="footer"><div><strong>CrediDSL</strong> · Prototipo académico para el curso de Compiladores.<br>Sin autenticación, sin almacenamiento persistente y sin datos de clientes.</div><div class="footright"><span class="warning">⚠ No usar para decisiones financieras reales.</span><br>Usa únicamente valores sintéticos.</div></footer>
+  <footer class="footer"><strong>CrediDSL · Proyecto de Compiladores</strong><span>Entorno simulado para políticas y solicitudes ficticias</span></footer>
 </div>
-<script>
-  const rule = document.getElementById('rule');
-  const defaultRule = {{ default_rule|tojson }};
-  document.getElementById('loadDefault').addEventListener('click', () => { rule.value = defaultRule; rule.focus(); });
-  document.getElementById('loadOr').addEventListener('click', () => { rule.value = 'REGLA elegibilidad SI (ingreso >= 1800 AND score >= 650) OR moras == 0 ENTONCES APROBAR;'; rule.focus(); });
-  document.getElementById('resetValues').addEventListener('click', () => {
-    document.getElementById('ingreso').value = '1800';
-    document.getElementById('score').value = '650';
-    document.getElementById('endeudamiento').value = '0.40';
-    document.getElementById('moras').value = '0';
-  });
-</script>
 </body>
 </html>
